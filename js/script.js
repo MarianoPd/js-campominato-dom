@@ -31,15 +31,15 @@ function run(container){
 
 /**
  * 
- * @param {il contenitore da riempire di quadrati} cont 
- * @param {il numero di quadrati da creare} num 
+ * @param {il contenitore da riempire di quadrati} container 
+ * @param {il numero di quadrati da creare} numSquare 
  * @param {array contenente i numeri dei quadrati 'bomba'} bArray
  
  */
-function fillContainer(cont, num, bArray){
-    cont.innerHTML = '';
-    for(let i = 1; i <= num; i++){
-        const square = createSquare(cont, num);
+function fillContainer(container, numSquare, bArray){
+    container.innerHTML = '';
+    for(let i = 1; i <= numSquare; i++){
+        const square = createSquare(container, numSquare);
         square.innerHTML= `${i}`;
         square.addEventListener('click',clickReact);
     }
@@ -47,7 +47,7 @@ function fillContainer(cont, num, bArray){
     function clickReact(event){
         this.classList.add('clicked');
         const sqrNum = parseInt(event.target.innerText);
-        if(bArray.includes(sqrNum)) explode(cont,bArray);
+        if(bArray.includes(sqrNum)) explode(container,bArray);
     }
     
     return 0;
@@ -56,17 +56,17 @@ function fillContainer(cont, num, bArray){
 
 /**
  * 
- * @param {container dove inserire il quadrato} cont 
- * @param {numero di quadrati} num 
+ * @param {containerainer dove inserire il quadrato} container 
+ * @param {numero di quadrati} numSquare 
  * @returns ritorna il quadrato che ha creato
  */
-function createSquare(cont, num){
-    const sqrt = Math.sqrt(num);
+function createSquare(container, numSquare){
+    const sqrt = Math.sqrt(numSquare);
     const square = document.createElement('div');
     square.classList.add('square');
     square.style.width = 'calc(100% / '+ sqrt + ')';
     square.style.height = 'calc(100% / '+ sqrt + ')'; 
-    cont.append(square);
+    container.append(square);
     
     return square;
 
@@ -86,13 +86,14 @@ function createBombs(bArray, nSqr){
         if(!bArray.includes(sqr)) bArray.push(sqr);
     }
     console.log(bArray);
+    return 0;
 }
 
 
-function explode(cont, bArray){
-    const numbOfChildren = cont.children.length;
+function explode(container, bArray){
+    const numbOfChildren = container.children.length;
     for(let i = 0; i< numbOfChildren; i++){
-        const square = cont.children[i];
+        const square = container.children[i];
         
         square.classList.add('clicked');
         if(bArray.includes(parseInt(square.innerHTML))){
@@ -100,6 +101,9 @@ function explode(cont, bArray){
             console.log(square);
         } 
     }
+
+    container.style.border = '5px dashed yellow';
+    return 0;
 }
 
 
