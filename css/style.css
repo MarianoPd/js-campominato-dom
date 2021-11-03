@@ -74,6 +74,7 @@ main.wrapper{
 
 .clicked{
     background-color: cornflowerblue;
+    color: white;
 }
 
 /* footer */
