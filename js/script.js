@@ -24,7 +24,6 @@ function run(container){
 }
 
 
-
 /**
  * 
  * @param {il contenitore da riempire di quadrati} cont 
@@ -56,8 +55,8 @@ function createSquare(cont, i, num){
     const sqrt = Math.sqrt(num);
     const square = document.createElement('div');
     square.classList.add('square');
-    square.style.width = ('100% /' + sqrt );
-    square.style.height = Math.sqrt(num);
+    square.style.width = 'calc(100% / '+ sqrt + ')';
+    square.style.height = 'calc(100% / '+ sqrt + ')'; 
     square.innerHTML= `${i}`;
     
     cont.append(square);
