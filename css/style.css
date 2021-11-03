@@ -1,0 +1,89 @@
+/* general settings */
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.container-hf{
+    width: 70%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+}
+
+/* header */
+
+header{
+    height: 80px;
+    width: 100%;
+}
+
+.header-left, .header-right{
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.header-left *{
+    display: inline-block;
+    max-height: 60%;
+    padding-right: 10px;
+}
+
+.header-right select{
+    margin:0 5px ;
+    width: 150px;
+}
+
+#play-btn{
+    width: 70px;
+}
+
+
+/* main */
+main.wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 120px);
+    width: 100%;
+    background-color: #7efed4;
+}
+
+.container-grid{
+    height: 500px;
+    width: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.square{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+}
+
+
+.clicked{
+    background-color: cornflowerblue;
+}
+
+/* footer */
+
+footer{
+    height: 40px;
+    width: 100%;
+
+}
+
+footer a{
+    color: blue;
+}
