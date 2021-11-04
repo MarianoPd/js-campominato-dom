@@ -3,10 +3,19 @@ const container = document.querySelector('.container-grid');
 console.log(container);
 const btn = document.getElementById('play-btn');
 
+//parametri globali delle difficoltà
+const BOMBS_NUMB = 16;
+const EASY_LEVEL = 100;
+const MEDIUM_LEVEL = 81;
+const HARD_LEVEL = 49;
+const WIN_SCORE = 1;
 
 btn.addEventListener('click', function(){
     run(container);
 });
+
+let bombsArray = [];
+let clickedArray = [];
 
 /**
  * 
@@ -14,14 +23,17 @@ btn.addEventListener('click', function(){
  * @returns 
  */
 function run(container){
-    const diffLevels = [100,81,49];
-    let bombsArray = [];
+    let wrapper = container.parentElement;
+    wrapper.removeChild(wrapper.lastChild);
+    bombsArray = [];
+    clickedArray = [];
+    const diffLevels = [EASY_LEVEL,MEDIUM_LEVEL,HARD_LEVEL];
     const selectDiff = parseInt(document.getElementById('difficulty').value);
     console.log(selectDiff);
     let numSquares = diffLevels[selectDiff - 1 ];
     console.log(numSquares);
 
-    fillContainer(container, numSquares, bombsArray);
+    fillContainer(container, numSquares, bombsArray,clickedArray);
     
     createBombs(bombsArray, numSquares);
     
@@ -34,9 +46,10 @@ function run(container){
  * @param {il contenitore da riempire di quadrati} container 
  * @param {il numero di quadrati da creare} numSquare 
  * @param {array contenente i numeri dei quadrati 'bomba'} bArray
+ * @param {l'array che conterrà i quadrati clickati}cArray
  
  */
-function fillContainer(container, numSquare, bArray){
+function fillContainer(container, numSquare){
     container.innerHTML = '';
     for(let i = 1; i <= numSquare; i++){
         const square = createSquare(container, numSquare);
@@ -44,14 +57,18 @@ function fillContainer(container, numSquare, bArray){
         square.addEventListener('click',clickReact);
     }
 
-    function clickReact(event){
-        this.classList.add('clicked');
-        const sqrNum = parseInt(event.target.innerText);
-        if(bArray.includes(sqrNum)) explode(container,bArray);
-    }
     
-    return 0;
 }
+
+function clickReact(event){
+    this.classList.add('clicked');
+    const sqrNum = parseInt(event.target.innerText);
+    if(bombsArray.includes(sqrNum)) explode(container,bombsArray, clickedArray );
+    clickedArray.push(parseInt(this.innerHTML));
+    if(clickedArray.length === WIN_SCORE) explode(container,bombsArray, clickedArray );
+}
+
+
 
 
 /**
@@ -79,31 +96,53 @@ function createSquare(container, numSquare){
  * @param {numero totale di quatrati} nSqr 
  */
 function createBombs(bArray, nSqr){
-    const BOMBS_NUMB = 16;
+    
     while(bArray.length < BOMBS_NUMB){
         const sqr = numRand(1,nSqr); 
-        console.log(sqr);
         if(!bArray.includes(sqr)) bArray.push(sqr);
     }
-    console.log(bArray);
     return 0;
 }
 
-
-function explode(container, bArray){
+/**
+ * 
+ * @param {il container dei quadrati} container 
+ * @param {l'array delle bombe} bArray 
+ * @param {l'array dei quadrati cliccati} cArray 
+ * @returns 
+ */
+function explode(container, bArray, cArray){
     const numbOfChildren = container.children.length;
     for(let i = 0; i< numbOfChildren; i++){
         const square = container.children[i];
         
-        square.classList.add('clicked');
-        if(bArray.includes(parseInt(square.innerHTML))){
+        if(bArray.includes(parseInt(square.innerHTML)) ){
             square.style.background = 'red';
-            console.log(square);
+            square.style.color ='white';
         } 
+        square.removeEventListener('click',clickReact);
     }
-
-    container.style.border = '5px dashed yellow';
+    
+    displayResult(cArray, container.parentElement);
+    
     return 0;
+}
+
+function displayResult(cArray, wrapper){
+    let result = document.createElement('h2');
+        result.style.marginTop = '20px';
+
+    if(cArray.length === WIN_SCORE){
+        result.innerHTML = `
+            Hai Vinto Bravo !!!
+        `
+    }else{
+        console.log('displayResult');        
+        result.innerHTML = `
+            Peccato, hai perso :-( Hai azzeccato ${cArray.length} tentativi. Gioca ancora ...
+        `
+    }
+    wrapper.appendChild(result);
 }
 
 

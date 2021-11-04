@@ -48,6 +48,7 @@ header{
 /* main */
 main.wrapper{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: calc(100vh - 120px);
@@ -77,6 +78,10 @@ main.wrapper{
     color: white;
 }
 
+.result{
+    margin-top: 50px;
+    font-size: 20px;
+}
 /* footer */
 
 footer{
